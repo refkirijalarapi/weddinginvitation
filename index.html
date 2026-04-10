@@ -46,16 +46,33 @@
       AOS.init();
     </script>
     <script>
-    // Fungsi untuk mengambil parameter dari URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const namaTamu = urlParams.get('to');
+    // 1. Inisialisasi AOS (Animate On Scroll)
+    // Memastikan animasi berjalan saat halaman di-scroll
+    AOS.init({
+        duration: 1000, // durasi animasi dalam milidetik
+        once: true,     // animasi hanya berjalan sekali saat di-scroll
+    });
 
-    // Jika parameter 'to' ada di URL, ganti isi teks di id guest-name
-    if (namaTamu) {
-        // Mengganti karakter '+' atau '%20' menjadi spasi secara otomatis
-        document.getElementById('name').innerText = namaTamu;
+    // 2. Logika Mengambil Nama dari URL
+    // Contoh URL: index.html?to=Deni_Priatna
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const namaRaw = urlParams.get('to');
+
+    // Jika parameter 'to' ditemukan di URL
+    if (namaRaw) {
+        // .replace(/_/g, ' ') akan mencari semua (_) dan menggantinya dengan spasi ( )
+        // .replace(/\+/g, ' ') juga menangani jika URL menggunakan tanda plus (+) untuk spasi
+        const namaClean = namaRaw.replace(/_/g, ' ').replace(/\+/g, ' ');
+
+        // Masukkan nama yang sudah bersih ke dalam elemen HTML
+        const elemenNama = document.getElementById('name');
+        if (elemenNama) {
+            elemenNama.innerText = namaClean;
+        }
     }
-</script>
+    </script>
+    
 
   </body>
 </html>
